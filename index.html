@@ -275,6 +275,21 @@
 #hb3d-chat-toggle {
   cursor: move !important;
 }
+/* BULLE FIXE : plus de curseur move */
+#hb3d-chat-widget, 
+#hb3d-chat-toggle {
+  cursor: pointer !important;  /* Main cliquable uniquement */
+}
+
+/* SUPPRIME héritage move du widget */
+#hb3d-chat-widget * {
+  cursor: default !important;
+}
+
+/* SURVOL : effet visuel sans drag */
+#hb3d-chat-toggle:hover {
+  cursor: pointer !important;
+}
 
 
 
@@ -355,7 +370,7 @@
 
   
 <script>
-  // === VERSION GEMINI LOCALE ===
+  // === VERSION GEMINI LOCALE SANS DRAG ===
 
   const MESSAGES = {
     accueil: "✅ Bot local OK ! (Gemini en maintenance)",
@@ -363,7 +378,6 @@
     default: "Utilise le formulaire devis ! 😊"
   };
 
-  
   const hb3dWidget = document.getElementById("hb3d-chat-widget");
   const hb3dToggle = document.getElementById("hb3d-chat-toggle");
   const hb3dPanel   = document.getElementById("hb3d-chat-panel");
@@ -372,55 +386,37 @@
   const chatInput   = document.getElementById("chat-input");
   const chatSend    = document.getElementById("chat-send");
 
-  // 💡 Pour le draggable
-  let isDragging = false;
-  let currentX, currentY, initialX, initialY, xOffset = 0, yOffset = 0;
+  // SUPPRIME TOUT DRAG : vars + fonctions
+  // let isDragging = false; ... SUPPRIMÉ
+  // function dragMouseDown... SUPPRIMÉ
+  // function dragEnd... SUPPRIMÉ
+  // function drag... SUPPRIMÉ
 
-  function dragMouseDown(e) {
-  e = e || window.event;
-
-  // On commence à drag depuis le toggle ou le panel
-  if (e.target === hb3dToggle || e.target === hb3dPanel || e.target === hb3dClose || e.target === chatMessages || e.target === chatInput || e.target === chatSend) {
-    isDragging = true;
-    initialX = e.clientX - xOffset;
-    initialY = e.clientY - yOffset;
+  function addTypingIndicator() {
+    const div = document.createElement("div");
+    div.className = "msg bot typing";
+    div.innerHTML = `
+      <span class="typing-dots">
+        <span></span><span></span><span></span>
+      </span>
+    `;
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    return div;
   }
-}
 
-function dragEnd(e) {
-  initialX = currentX;
-  initialY = currentY;
-  isDragging = false;
-}
+  // ÉVÉNEMENTS SANS DRAG ↓
+  // OUVERTURE : UNIQUEMENT click sur toggle
+  hb3dToggle.addEventListener("click", (e) => {
+    e.stopPropagation();  // Bloque propagation
+    if (hb3dWidget.classList.contains("is-open")) hb3dCloseChat();
+    else hb3dOpenChat();
+  });
 
-function drag(e) {
-  if (isDragging) {
-    e.preventDefault();
-    currentX = e.clientX - initialX;
-    currentY = e.clientY - initialY;
-    xOffset = currentX;
-    yOffset = currentY;
-    hb3dWidget.style.transform = `translate(${currentX}px, ${currentY}px)`;
-  }
-}
-
-function addTypingIndicator() {
-  const div = document.createElement("div");
-  div.className = "msg bot typing";
-  div.innerHTML = `
-    <span class="typing-dots">
-      <span></span><span></span><span></span>
-    </span>
-  `;
-  chatMessages.appendChild(div);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
-  return div;
-}
-
-// Associe les événements
-hb3dToggle.addEventListener("mousedown", dragMouseDown, false);
-document.addEventListener("mouseup", dragEnd, false);
-document.addEventListener("mousemove", drag, false);
+  // SUPPRIME mousedown/mousemove/mouseup DRAG
+  // hb3dToggle.addEventListener("mousedown", dragMouseDown, false); SUPPRIMÉ
+  // document.addEventListener("mouseup", dragEnd, false); SUPPRIMÉ
+  // document.addEventListener("mousemove", drag, false); SUPPRIMÉ
 
   // Fonction principale asynchrone
   async function handleSendMessage() {
@@ -437,41 +433,31 @@ document.addEventListener("mousemove", drag, false);
   }
 
   async function getBotReply(message) {
-  const msgLower = message.toLowerCase();
+    const msgLower = message.toLowerCase();
 
-  // Si message vide
-  if (!message.trim()) {
-    return MESSAGES.default;
-  }
+    if (!message.trim()) return MESSAGES.default;
 
-  // 1. Si c’est "prix"
-  if (msgLower.includes("prix")) {
-    return MESSAGES.prix;
-  }
+    if (msgLower.includes("prix")) return MESSAGES.prix;
 
-  // 2. Par défaut → on appelle Gemini
-  try {
-    const response = await fetch("/chat/chat_api.php", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        message,
-        sessionId: "hb3d-local-test",
-      }),
-    });
+    try {
+      const response = await fetch("/chat/chat_api.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message,
+          sessionId: "hb3d-local-test",
+        }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (data.ok && data.reply) {
-      return data.reply;
+      if (data.ok && data.reply) return data.reply;
+      return data.error || "Gemini temporairement indisponible";
+    } catch (err) {
+      console.error("erreur Gemini : ", err);
+      return "Service temporairement indisponible";
     }
-    return data.error || "Gemini temporairement indisponible";
-  } catch (err) {
-    console.error("erreur Gemini : ", err);
-    return "Service temporairement indisponible";
   }
-}
-
 
   function addMessage(text, sender) {
     const div = document.createElement("div");
@@ -497,29 +483,16 @@ document.addEventListener("mousemove", drag, false);
     hb3dPanel.setAttribute("aria-hidden", "true");
   }
 
-  // On garde un seul handleSendMessage = async
-  hb3dToggle.addEventListener("click", () => {
-    if (hb3dWidget.classList.contains("is-open")) hb3dCloseChat();
-    else hb3dOpenChat();
-  });
-
   hb3dClose.addEventListener("click", hb3dCloseChat);
-
   chatSend.addEventListener("click", handleSendMessage);
-
   chatInput.addEventListener("keydown", (e) => e.key === "Enter" && handleSendMessage());
-
   document.addEventListener("keydown", (e) => e.key === "Escape" && hb3dCloseChat());
 
-  // Auto‑resize textarea, sans perturber le layout
-function autoResizeTextarea(el) {
-  el.style.height = "auto";
-  el.style.height = el.scrollHeight + "px";
-}
-
-chatInput.addEventListener("input", () => {
-  autoResizeTextarea(chatInput);
-});
+  function autoResizeTextarea(el) {
+    el.style.height = "auto";
+    el.style.height = el.scrollHeight + "px";
+  }
+  chatInput.addEventListener("input", () => autoResizeTextarea(chatInput));
 </script>
 
 
