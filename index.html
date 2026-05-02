@@ -553,7 +553,7 @@
   hb3dPanel.setAttribute("aria-hidden", "false");
 
   const label = document.getElementById("hb3d-chat-label");
-  if (label) label.style.display = "none";
+  if (label) label.style.visibility = "hidden"; // Le label reste là, mais invisible
 
   setTimeout(() => chatInput.focus(), 150);
   if (chatMessages.children.length === 0) {
@@ -567,7 +567,7 @@ function hb3dCloseChat() {
   hb3dPanel.setAttribute("aria-hidden", "true");
 
   const label = document.getElementById("hb3d-chat-label");
-  if (label) label.style.display = "block";
+  if (label) label.style.visibility = "visible"; // Il réapparaît
 }
 
   hb3dClose.addEventListener("click", hb3dCloseChat);
