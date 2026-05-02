@@ -32,7 +32,7 @@
 
     #hb3d-chat-toggle {
     width: 50px !important;    /* Taille réduite */
-    height: 40px !important;   /* Taille réduite */
+    height: 50px !important;   /* Taille réduite */
     border-radius: 6px !important; /* Carré avec coins arrondis (donne un look "cubique") */
     font-size: 22px !important; /* Ajuste la taille de l'emoji */
     background: #fa0441;
@@ -319,6 +319,24 @@
     width: 360px;
     max-height: calc(100vh - 150px); /* Ne dépassera jamais le haut */
     overflow: hidden;
+}
+
+#hb3d-chat-label {
+    position: absolute;
+    bottom: 60px;
+    right: -15px; /* On décale vers la droite pour compenser la largeur */
+    width: 80px;  /* Largeur fixe */
+    text-align: center;
+    background: #e11d48;
+    color: #ffffff;
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 11px;
+    line-height: 1.2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+    font-family: 'Orbitron', sans-serif !important;
+}
 
 /* ChatBot RESPONSIF parfait */
 .chat-container {
@@ -411,6 +429,9 @@
        <input type="file" id="stl-file" accept=".stl">
       </div>
     </div>
+
+    <div id="hb3d-chat-label">Besoin d'aide ?</div>
+    
 
     <button
       id="hb3d-chat-toggle"
@@ -527,20 +548,27 @@
   }
 
   function hb3dOpenChat() {
-    hb3dWidget.classList.add("is-open");
-    hb3dToggle.setAttribute("aria-expanded", "true");
-    hb3dPanel.setAttribute("aria-hidden", "false");
-    setTimeout(() => chatInput.focus(), 150);
-    if (chatMessages.children.length === 0) {
-      addMessage(MESSAGES.accueil, "bot");
-    }
-  }
+  hb3dWidget.classList.add("is-open");
+  hb3dToggle.setAttribute("aria-expanded", "true");
+  hb3dPanel.setAttribute("aria-hidden", "false");
 
-  function hb3dCloseChat() {
-    hb3dWidget.classList.remove("is-open");
-    hb3dToggle.setAttribute("aria-expanded", "false");
-    hb3dPanel.setAttribute("aria-hidden", "true");
+  const label = document.getElementById("hb3d-chat-label");
+  if (label) label.style.display = "none";
+
+  setTimeout(() => chatInput.focus(), 150);
+  if (chatMessages.children.length === 0) {
+    addMessage(MESSAGES.accueil, "bot");
   }
+}
+
+function hb3dCloseChat() {
+  hb3dWidget.classList.remove("is-open");
+  hb3dToggle.setAttribute("aria-expanded", "false");
+  hb3dPanel.setAttribute("aria-hidden", "true");
+
+  const label = document.getElementById("hb3d-chat-label");
+  if (label) label.style.display = "block";
+}
 
   hb3dClose.addEventListener("click", hb3dCloseChat);
   chatSend.addEventListener("click", handleSendMessage);
