@@ -328,7 +328,7 @@
     width: 360px;
     max-height: calc(100vh - 150px); /* Ne dépassera jamais le haut */
     overflow: hidden;
-    
+ }   
 
 #hb3d-chat-label {
     position: absolute;
@@ -348,8 +348,12 @@
 }
 
 /* Utilise l'ID correct et la classe .is-open */
-#hb3d-chat-widget.is-open .besoin-aide-label {
-    display: none !important;
+/* --- CAMOUFLAGE DU LABEL (N'écrase pas la fenêtre) --- */
+#hb3d-chat-widget.is-open #hb3d-chat-label {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: opacity 0.2s ease !important;
 }
 
 /* ChatBot RESPONSIF parfait */
@@ -371,8 +375,6 @@
 
 /* Font Orbitron partout */
 * { font-family: 'Orbitron', sans-serif !important; }
-
-
 
 
 
