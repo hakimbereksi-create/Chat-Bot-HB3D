@@ -26,7 +26,7 @@
       right: 20px !important;
       bottom: 20px !important;
       z-index: 999999 !important;
-      
+
     /* Force l'alignement des éléments à l'intérieur vers la droite */
       display: flex !important;
       flex-direction: column !important;
@@ -329,7 +329,7 @@
     max-height: calc(100vh - 150px); /* Ne dépassera jamais le haut */
     overflow: hidden;
     
-
+}
 #hb3d-chat-label {
     position: absolute;
     bottom: 60px;
@@ -345,6 +345,11 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     pointer-events: none;
     font-family: 'Orbitron', sans-serif !important;
+}
+
+/* Utilise l'ID correct et la classe .is-open */
+#hb3d-chat-widget.is-open .besoin-aide-label {
+    display: none !important;
 }
 
 /* ChatBot RESPONSIF parfait */
@@ -367,6 +372,10 @@
 /* Font Orbitron partout */
 * { font-family: 'Orbitron', sans-serif !important; }
 
+/* Cache le label quand le chat est ouvert */
+#hb3d-chat-widget.is-open #hb3d-chat-label {
+    display: none !important;
+}
 
 
 @keyframes typingBounce {
@@ -560,17 +569,21 @@
     hb3dWidget.classList.add("is-open");
     hb3dToggle.setAttribute("aria-expanded", "true");
     hb3dPanel.setAttribute("aria-hidden", "false");
+    
+    // focus sur l'input
     setTimeout(() => chatInput.focus(), 150);
+    
+    // Lancement du message d'accueil
     if (chatMessages.children.length === 0) {
-      addMessage(MESSAGES.accueil, "bot");
+        addMessage(MESSAGES.accueil, "bot");
     }
-  }
+}
 
-  function hb3dCloseChat() {
+function hb3dCloseChat() {
     hb3dWidget.classList.remove("is-open");
     hb3dToggle.setAttribute("aria-expanded", "false");
     hb3dPanel.setAttribute("aria-hidden", "true");
-  }
+}
 
   hb3dClose.addEventListener("click", hb3dCloseChat);
   chatSend.addEventListener("click", handleSendMessage);
