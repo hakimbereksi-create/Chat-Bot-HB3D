@@ -291,6 +291,28 @@
   cursor: pointer !important;
 }
 
+/* ZONE MESSAGES : SCROLL + HAUTEUR MAX */
+#chat-messages {
+  flex: 1 1 40% !important;  /* Min 40% écran */
+  min-height: 300px !important;
+  max-height: 500px !important;
+  overflow-y: auto !important;
+}
+
+/* IFRAME RESPONSIVE */
+#chat-messages iframe {
+  width: 100% !important;
+  min-height: 350px !important;
+  max-height: 450px !important;
+  border-radius: 12px !important;
+}
+
+/* PANEL HAUTEUR ADAPTATIVE */
+#hb3d-chat-panel {
+  height: auto !important;
+  max-height: 80vh !important;
+}
+
 
 
 @keyframes typingBounce {
@@ -356,6 +378,10 @@
         <button id="chat-send" type="button">Envoyer</button>
       </div>
      </div>
+
+     <div id="file-upload" style="display:none;">
+       <input type="file" id="stl-file" accept=".stl">
+      </div>
     </div>
 
     <button
@@ -368,7 +394,7 @@
     </button>
   </div>
 
-  
+   
 <script>
   // === VERSION GEMINI LOCALE SANS DRAG ===
 
