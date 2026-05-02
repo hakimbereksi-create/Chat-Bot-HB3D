@@ -319,7 +319,7 @@
     width: 360px;
     max-height: calc(100vh - 150px); /* Ne dépassera jamais le haut */
     overflow: hidden;
-}
+    
 
 #hb3d-chat-label {
     position: absolute;
@@ -336,16 +336,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     pointer-events: none;
     font-family: 'Orbitron', sans-serif !important;
-}
-
-/* Cache uniquement le texte, pas le bouton conteneur */
-.hb3d-widget.is-open .besoin-aide-label {
-    display: none !important;
-}
-
-/* Assure-toi que le conteneur a une largeur fixe quand le chat est ouvert */
-.hb3d-widget.is-open {
-    width: 60px; /* Ou la taille de ton icône bulle */
 }
 
 /* ChatBot RESPONSIF parfait */
@@ -558,27 +548,20 @@
   }
 
   function hb3dOpenChat() {
-  hb3dWidget.classList.add("is-open");
-  hb3dToggle.setAttribute("aria-expanded", "true");
-  hb3dPanel.setAttribute("aria-hidden", "false");
-
-  const label = document.getElementById("hb3d-chat-label");
-  if (label) label.style.visibility = "hidden"; // Le label reste là, mais invisible
-
-  setTimeout(() => chatInput.focus(), 150);
-  if (chatMessages.children.length === 0) {
-    addMessage(MESSAGES.accueil, "bot");
+    hb3dWidget.classList.add("is-open");
+    hb3dToggle.setAttribute("aria-expanded", "true");
+    hb3dPanel.setAttribute("aria-hidden", "false");
+    setTimeout(() => chatInput.focus(), 150);
+    if (chatMessages.children.length === 0) {
+      addMessage(MESSAGES.accueil, "bot");
+    }
   }
-}
 
-function hb3dCloseChat() {
-  hb3dWidget.classList.remove("is-open");
-  hb3dToggle.setAttribute("aria-expanded", "false");
-  hb3dPanel.setAttribute("aria-hidden", "true");
-
-  const label = document.getElementById("hb3d-chat-label");
-  if (label) label.style.visibility = "visible"; // Il réapparaît
-}
+  function hb3dCloseChat() {
+    hb3dWidget.classList.remove("is-open");
+    hb3dToggle.setAttribute("aria-expanded", "false");
+    hb3dPanel.setAttribute("aria-hidden", "true");
+  }
 
   hb3dClose.addEventListener("click", hb3dCloseChat);
   chatSend.addEventListener("click", handleSendMessage);
