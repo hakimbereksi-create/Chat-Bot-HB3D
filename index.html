@@ -278,9 +278,11 @@
   cursor: move !important;
 }
 /* BULLE FIXE : plus de curseur move */
-#hb3d-chat-widget, 
-#hb3d-chat-toggle {
-  cursor: pointer !important;  /* Main cliquable uniquement */
+#hb3d-chat-widget {
+    position: fixed;
+    right: 30px; /* Marge standard */
+    bottom: 30px; /* Marge standard */
+    z-index: 99999;
 }
 
 /* SUPPRIME héritage move du widget */
@@ -311,9 +313,12 @@
 
 /* PANEL HAUTEUR ADAPTATIVE */
 #hb3d-chat-panel {
-  height: auto !important;
-  max-height: 80vh !important;
-}
+    position: absolute;
+    right: 0;
+    bottom: 80px; /* Colle au-dessus du toggle */
+    width: 360px;
+    max-height: calc(100vh - 150px); /* Ne dépassera jamais le haut */
+    overflow: hidden;
 
 /* ChatBot RESPONSIF parfait */
 .chat-container {
@@ -349,9 +354,9 @@
 }
 
     @media (max-width: 480px) {
-      #hb3d-chat-widget {
-        right: 12px;
-        bottom: 12px;
+    #hb3d-chat-panel {
+        width: calc(100vw - 40px);
+        right: 20px;
       }
 
       #hb3d-chat-panel {
