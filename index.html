@@ -338,6 +338,16 @@
     font-family: 'Orbitron', sans-serif !important;
 }
 
+/* Cache uniquement le texte, pas le bouton conteneur */
+.hb3d-widget.is-open .besoin-aide-label {
+    display: none !important;
+}
+
+/* Assure-toi que le conteneur a une largeur fixe quand le chat est ouvert */
+.hb3d-widget.is-open {
+    width: 60px; /* Ou la taille de ton icône bulle */
+}
+
 /* ChatBot RESPONSIF parfait */
 .chat-container {
     position: fixed;
