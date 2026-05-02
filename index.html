@@ -35,7 +35,7 @@
       height: 64px;
       border: none;
       border-radius: 999px;
-      background: #e11d48;
+      background: #fa0441;
       color: #ffffff;
       cursor: pointer;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
@@ -76,6 +76,9 @@
       transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
       display: flex;
       flex-direction: column;
+      height: auto !important; 
+      max-height: calc(100vh - 120px) !important; /* Calcule l'espace restant sans toucher le haut */
+      bottom: 80px; /* Colle au-dessus du bouton */
     }
 
     #hb3d-chat-widget.is-open #hb3d-chat-panel {
@@ -120,7 +123,7 @@
 
     #chat-header {
   flex: 0 0 auto;
-  background: #e11d48;
+  background: #fa0441;
   color: white;
   padding: 14px 16px;
   display: flex;
@@ -176,7 +179,7 @@
 
     .msg.user {
       align-self: flex-end;
-      background: #fd0202;
+      background: #fa0441;
       color: #fff;
     }
 
@@ -211,7 +214,7 @@
 
 
     #chat-input:focus {
-      border-color: #fb0505;
+      border-color:  #fa0441;
       box-shadow: 0 0 0 2px rgba(225, 29, 72, 0.15);
     }
 
@@ -219,7 +222,7 @@
       flex: 0 0 auto;
       min-width: 80px;
       border: none;
-      background: #e11d48;
+      background:  #fa0441;
       color: white;
       padding: 10px 14px;
       border-radius: 10px;
@@ -232,7 +235,7 @@
     }
 
     #chat-send:hover {
-      background: #be123c;
+      background:  #fa0441;
     }
 
     .msg.typing {
