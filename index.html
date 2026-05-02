@@ -60,11 +60,11 @@
     }
 
     #hb3d-chat-panel {
-      position: absolute;
-      right: 0;
-      bottom: 80px;
+      position: fixed; /* Fixed est plus stable que absolute */
+      right: 20px;
+      bottom: 90px;
       width: 360px;
-      height: 620px;
+      max-height: 80vh; /* Ne dépasse jamais 80% de la hauteur */
       background: #ffffff;
       border-radius: 0px;
       overflow: hidden;
@@ -355,11 +355,12 @@
       }
 
       #hb3d-chat-panel {
+        bottom: 0;      /* Coller en bas */
         right: 0;
-        bottom: 76px;
-        width: calc(100vw - 24px);
-        height: 70vh;
-        max-height: 620px;
+        width: 100%;    /* Pleine largeur */
+        height: 100vh;  /* Pleine hauteur */
+        max-height: 100vh;
+        border-radius: 0; /* Plus de bords arrondis en mode plein écran */
       }
 
       #hb3d-chat-toggle {
