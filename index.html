@@ -313,24 +313,25 @@
   max-height: 80vh !important;
 }
 
-    .chat-container {
+/* ChatBot RESPONSIF parfait */
+.chat-container {
     position: fixed;
-    top: 10vh;
-    left: 50%;
-    transform: translateX(-50%);  /* Centré parfait */
-    width: 95vw; max-width: 1200px;
+    top: 10vh;      /* 10% viewport = auto-adapt */
+    left: 0; right: 0;
     z-index: 9999;
-    padding: 0; margin: 0;
+    padding: 10px;
 }
 
 .chat-iframe {
     width: 100%; 
-    height: 70vh;      /* Auto-adapt */
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12); /* Plus soft */
-    display: block;
-    margin: 0;
+    height: 70vh;   /* 70% hauteur écran */
+    max-height: 700px;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
 }
+
+/* Font uniforme */
+* { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto !important; }
 
 
 
@@ -477,17 +478,20 @@
     addMessage(reply, "bot");
   }
 
-  async function getBotReply(message) {
+    async function getBotReply(message) {
     const msgLower = message.toLowerCase();
 
     if (!message.trim()) return MESSAGES.default;
-
     if (msgLower.includes("prix")) return MESSAGES.prix;
 
     try {
-      const response = await fetch("/chat/chat_api.php", {
+      // MODIFIÉ ICI : URL complète + header magique
+      const response = await fetch("https://unamusable-nonacidic-wilfred.ngrok-free.dev/chat/chat_api.php", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "true" // <--- C'est lui qui tue l'écran d'avertissement
+        },
         body: JSON.stringify({
           message,
           sessionId: "hb3d-local-test",
@@ -503,6 +507,7 @@
       return "Service temporairement indisponible";
     }
   }
+
 
   function addMessage(text, sender) {
     const div = document.createElement("div");
