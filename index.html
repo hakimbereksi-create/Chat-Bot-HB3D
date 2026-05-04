@@ -21,8 +21,8 @@
       min-height: 100vh;
     }
 
-    
-    #hb3d-chat-widget {
+   /* --- MARKER: DEBUT CORRECTION CHAT WIDGET --- */
+#hb3d-chat-widget {
     position: fixed !important;
     right: 20px !important;
     bottom: 20px !important;
@@ -31,15 +31,22 @@
     flex-direction: column !important;
     align-items: flex-end !important;
     
-    /* AJOUTE ÇA : Le widget ne bloque plus les clics par défaut */
-    pointer-events: none !important;
+    /* C'est ICI que le miracle se passe : on autorise le clic à traverser */
+    pointer-events: none !important; 
+    
+    cursor: move;
+    transition: transform 0.1s ease;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-/* On réactive les clics uniquement sur les éléments interactifs */
-    #hb3d-chat-toggle, 
-    #hb3d-chat-widget.is-open #hb3d-chat-panel {
+/* On réactive les clics uniquement sur les éléments du widget */
+#hb3d-chat-widget *, 
+#hb3d-chat-widget #hb3d-chat-toggle, 
+#hb3d-chat-widget #hb3d-chat-panel {
     pointer-events: auto !important;
 }
+/* --- MARKER: FIN CORRECTION CHAT WIDGET --- */
 
     #hb3d-chat-toggle {
     width: 50px !important;    /* Taille réduite */
