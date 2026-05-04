@@ -376,9 +376,9 @@
 /* Font Orbitron partout */
 * { font-family: 'Orbitron', sans-serif !important; }
 
-/* 1. L'iframe est la "vitre" invisible par défaut */
+/* On s'assure que l'iframe ET tout ce qui l'entoure ne bloquent pas les clics */
 iframe {
-    pointer-events: none; /* Le clic passe au travers */
+    pointer-events: none !important; /* Force l'ignorant du clic */
     position: fixed;
     bottom: 0;
     right: 0;
@@ -387,10 +387,14 @@ iframe {
     transition: all 0.3s ease;
 }
 
-/* 2. On ne réactive le clic que quand on clique sur le bouton d'ouverture du chat */
-/* Supposons que tu as une classe .is-open sur ton conteneur */
-iframe.is-open {
-    pointer-events: auto;
+/* Quand on ouvre le chat, on réactive tout */
+#hb3d-chat-widget.is-open iframe {
+    pointer-events: auto !important;
+}
+
+/* AJOUTE CECI : Si ton iframe est dans une div, on la neutralise aussi */
+#hb3d-chat-widget {
+    pointer-events: none !important;
 }
 
 @keyframes typingBounce {
