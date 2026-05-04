@@ -387,29 +387,20 @@
 * { font-family: 'Orbitron', sans-serif !important; }
 
 
-/* --- LE VRAI CORRECTIF RADICAL --- */
-/* Quand le chat est FERMÉ (par défaut) */
 iframe[src*="hakimbereksi-create.github.io"] {
     position: fixed;
-    /* On la dégage TOTALEMENT de la zone du bouton */
-    top: -9999px !important; 
-    left: -9999px !important;
-    width: 0 !important;
-    height: 0 !important;
-    z-index: -1 !important; /* On l'envoie derrière le site */
-    pointer-events: none !important;
+    bottom: 0;
+    right: 0;
+    width: 380px;
+    height: 650px;
+    z-index: 999999;
+    border: none;
+    transition: opacity 0.3s ease;
 }
-
-/* Quand le chat est OUVERT */
-body.chat-ouvert iframe[src*="hakimbereksi-create.github.io"] {
-    top: auto !important;
-    bottom: 0 !important;
-    left: auto !important;
-    right: 0 !important;
-    width: 380px !important;
-    height: 650px !important;
-    z-index: 999999 !important;
-    pointer-events: auto !important;
+/* Par défaut, elle est invisible et ne bloque rien */
+.chat-ferme {
+    opacity: 0 !important;
+    pointer-events: none !important;
 }
 
 @keyframes typingBounce {
@@ -514,15 +505,19 @@ body.chat-ouvert iframe[src*="hakimbereksi-create.github.io"] {
   const chatInput   = document.getElementById("chat-input");
   const chatSend    = document.getElementById("chat-send");
 
-  const chatIframe = document.querySelector('#hb3d-chat-widget iframe');
-  
-  // Remplace ou ajoute ceci dans ton script
-const toggleBtn = document.getElementById("hb3d-chat-toggle");
+  const chatIframe = document.querySelector('iframe[src*="hakimbereksi-create.github.io"]');
 
-toggleBtn.addEventListener("click", function() {
-    // Si la classe existe, on la retire (fermeture), sinon on l'ajoute (ouverture)
-    document.body.classList.toggle('chat-ouvert');
-});
+  function openChat() {
+    // On remet la source pour charger le bot
+    chatIframe.src = "https://hakimbereksi-create.github.io/Chat-Bot-HB3D/";
+    chatIframe.classList.remove('chat-ferme');
+  }
+
+  function closeChat() {
+    // On vide la source pour tuer l'iframe
+    chatIframe.src = ""; 
+    chatIframe.classList.add('chat-ferme');
+  }
 
   function addTypingIndicator() {
     const div = document.createElement("div");
