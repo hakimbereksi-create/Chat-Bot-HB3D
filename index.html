@@ -21,23 +21,25 @@
       min-height: 100vh;
     }
 
-    #hb3d-chat-widget {
-      position: fixed !important;
-      right: 20px !important;
-      bottom: 20px !important;
-      z-index: 999999 !important;
-
-    /* Force l'alignement des éléments à l'intérieur vers la droite */
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: flex-end !important; /* C'est ça qui force le "côté droit" */
     
-      cursor: move;
-      transition: transform 0.1s ease;
-      margin: 0 !important;
-      padding: 0 !important;
-      transition: transform 0.1s ease;
-    }
+    #hb3d-chat-widget {
+    position: fixed !important;
+    right: 20px !important;
+    bottom: 20px !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    
+    /* AJOUTE ÇA : Le widget ne bloque plus les clics par défaut */
+    pointer-events: none !important;
+}
+
+/* On réactive les clics uniquement sur les éléments interactifs */
+    #hb3d-chat-toggle, 
+    #hb3d-chat-widget.is-open #hb3d-chat-panel {
+    pointer-events: auto !important;
+}
 
     #hb3d-chat-toggle {
     width: 50px !important;    /* Taille réduite */
