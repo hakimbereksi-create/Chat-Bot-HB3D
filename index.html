@@ -387,20 +387,22 @@
 * { font-family: 'Orbitron', sans-serif !important; }
 
 
+/* Retire la position fixed agressive */
 iframe[src*="hakimbereksi-create.github.io"] {
-    position: fixed;
-    bottom: 0;
-    right: 0;
+    position: absolute; /* L'iframe ne sort plus du flux "fixed" */
+    top: 0;
+    left: 0;
     width: 380px;
     height: 650px;
-    z-index: 999999;
+    z-index: 100; /* Juste au-dessus, pas au-dessus de tout le site */
     border: none;
-    transition: opacity 0.3s ease;
+    background: transparent;
+    pointer-events: none; /* Désactivé par défaut */
 }
-/* Par défaut, elle est invisible et ne bloque rien */
-.chat-ferme {
-    opacity: 0 !important;
-    pointer-events: none !important;
+
+/* Quand le chat est ouvert */
+body.chat-ouvert iframe[src*="hakimbereksi-create.github.io"] {
+    pointer-events: auto; /* On réactive les clics uniquement quand ouvert */
 }
 
 @keyframes typingBounce {
