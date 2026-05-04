@@ -376,27 +376,23 @@
 /* Font Orbitron partout */
 * { font-family: 'Orbitron', sans-serif !important; }
 
-/* L'iframe est "escamotée" par défaut : taille 0 et clics désactivés */
+
+/* L'iframe est "cachée" hors de l'écran à gauche */
 iframe[src*="hakimbereksi-create.github.io"] {
     position: fixed;
     bottom: 0;
-    right: 0;
-    z-index: 9999;
-    border: none;
-    background: transparent;
-    transition: all 0.3s ease;
-    
-    /* Le secret : taille nulle et clics impossibles quand fermé */
-    width: 0 !important;
-    height: 0 !important;
-    pointer-events: none !important;
-}
-
-/* Quand le chat est "ouvert" (classe ajoutée par JS), elle reprend sa place */
-body.chat-ouvert iframe[src*="hakimbereksi-create.github.io"] {
+    left: -1000px !important; /* Hors de portée */
     width: 380px !important;
     height: 650px !important;
-    pointer-events: auto !important;
+    z-index: 9999;
+    border: none;
+    transition: left 0.3s ease;
+}
+
+/* Quand le chat est "ouvert" (classe ajoutée par JS), elle revient à droite */
+body.chat-ouvert iframe[src*="hakimbereksi-create.github.io"] {
+    left: auto !important;
+    right: 0 !important;
 }
 
 @keyframes typingBounce {
@@ -500,17 +496,16 @@ body.chat-ouvert iframe[src*="hakimbereksi-create.github.io"] {
   const chatMessages = document.getElementById("chat-messages");
   const chatInput   = document.getElementById("chat-input");
   const chatSend    = document.getElementById("chat-send");
+
   const chatIframe = document.querySelector('#hb3d-chat-widget iframe');
+  
+  // Remplace ou ajoute ceci dans ton script
+const toggleBtn = document.getElementById("hb3d-chat-toggle");
 
-// Quand tu ouvres le chat :
-function openChat() {
-    document.body.classList.add('chat-ouvert');
-}
-
-// Quand tu fermes le chat :
-function closeChat() {
-    document.body.classList.remove('chat-ouvert');
-}
+toggleBtn.addEventListener("click", function() {
+    // Si la classe existe, on la retire (fermeture), sinon on l'ajoute (ouverture)
+    document.body.classList.toggle('chat-ouvert');
+});
 
   function addTypingIndicator() {
     const div = document.createElement("div");
