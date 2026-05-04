@@ -494,12 +494,19 @@ iframe.is-open {
   const chatMessages = document.getElementById("chat-messages");
   const chatInput   = document.getElementById("chat-input");
   const chatSend    = document.getElementById("chat-send");
+  const chatIframe = document.querySelector('#hb3d-chat-widget iframe');
 
-  // SUPPRIME TOUT DRAG : vars + fonctions
-  // let isDragging = false; ... SUPPRIMÉ
-  // function dragMouseDown... SUPPRIMÉ
-  // function dragEnd... SUPPRIMÉ
-  // function drag... SUPPRIMÉ
+function openChat() {
+  if (chatIframe) {
+    chatIframe.style.pointerEvents = 'auto';
+  }
+}
+
+function closeChat() {
+  if (chatIframe) {
+    chatIframe.style.pointerEvents = 'none';
+  }
+}
 
   function addTypingIndicator() {
     const div = document.createElement("div");
