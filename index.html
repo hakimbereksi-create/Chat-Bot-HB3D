@@ -376,25 +376,27 @@
 /* Font Orbitron partout */
 * { font-family: 'Orbitron', sans-serif !important; }
 
-/* On s'assure que l'iframe ET tout ce qui l'entoure ne bloquent pas les clics */
-iframe {
-    pointer-events: none !important; /* Force l'ignorant du clic */
+/* L'iframe est "escamotée" par défaut : taille 0 et clics désactivés */
+iframe[src*="hakimbereksi-create.github.io"] {
     position: fixed;
     bottom: 0;
     right: 0;
     z-index: 9999;
     border: none;
+    background: transparent;
     transition: all 0.3s ease;
-}
-
-/* Quand on ouvre le chat, on réactive tout */
-#hb3d-chat-widget.is-open iframe {
-    pointer-events: auto !important;
-}
-
-/* AJOUTE CECI : Si ton iframe est dans une div, on la neutralise aussi */
-#hb3d-chat-widget {
+    
+    /* Le secret : taille nulle et clics impossibles quand fermé */
+    width: 0 !important;
+    height: 0 !important;
     pointer-events: none !important;
+}
+
+/* Quand le chat est "ouvert" (classe ajoutée par JS), elle reprend sa place */
+body.chat-ouvert iframe[src*="hakimbereksi-create.github.io"] {
+    width: 380px !important;
+    height: 650px !important;
+    pointer-events: auto !important;
 }
 
 @keyframes typingBounce {
@@ -500,16 +502,14 @@ iframe {
   const chatSend    = document.getElementById("chat-send");
   const chatIframe = document.querySelector('#hb3d-chat-widget iframe');
 
+// Quand tu ouvres le chat :
 function openChat() {
-  if (chatIframe) {
-    chatIframe.style.pointerEvents = 'auto';
-  }
+    document.body.classList.add('chat-ouvert');
 }
 
+// Quand tu fermes le chat :
 function closeChat() {
-  if (chatIframe) {
-    chatIframe.style.pointerEvents = 'none';
-  }
+    document.body.classList.remove('chat-ouvert');
 }
 
   function addTypingIndicator() {
