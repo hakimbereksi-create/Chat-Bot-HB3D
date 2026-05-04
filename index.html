@@ -373,7 +373,22 @@
     box-shadow: 0 8px 32px rgba(0,0,0,0.15);
 }
 
-/* Font Orbitron partout */
+  /* Font Orbitron partout */
+* { font-family: 'Orbitron', sans-serif !important; }
+
+/* 1. Rendre le widget transparent aux clics par défaut */
+#hb3d-chat-widget {
+    pointer-events: none;
+}
+
+/* 2. Rendre EXPLICITEMENT cliquables les éléments interactifs du chat */
+#hb3d-chat-widget button,
+#hb3d-chat-widget #chat-app,
+#hb3d-chat-widget #chat-header {
+    pointer-events: auto;
+}
+
+  /* Font Orbitron partout */
 * { font-family: 'Orbitron', sans-serif !important; }
 
 
