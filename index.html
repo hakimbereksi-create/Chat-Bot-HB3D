@@ -387,22 +387,29 @@
 * { font-family: 'Orbitron', sans-serif !important; }
 
 
-/* L'iframe est "cachée" hors de l'écran à gauche */
+/* --- LE VRAI CORRECTIF RADICAL --- */
+/* Quand le chat est FERMÉ (par défaut) */
 iframe[src*="hakimbereksi-create.github.io"] {
     position: fixed;
-    bottom: 0;
-    left: -1000px !important; /* Hors de portée */
-    width: 380px !important;
-    height: 650px !important;
-    z-index: 9999;
-    border: none;
-    transition: left 0.3s ease;
+    /* On la dégage TOTALEMENT de la zone du bouton */
+    top: -9999px !important; 
+    left: -9999px !important;
+    width: 0 !important;
+    height: 0 !important;
+    z-index: -1 !important; /* On l'envoie derrière le site */
+    pointer-events: none !important;
 }
 
-/* Quand le chat est "ouvert" (classe ajoutée par JS), elle revient à droite */
+/* Quand le chat est OUVERT */
 body.chat-ouvert iframe[src*="hakimbereksi-create.github.io"] {
+    top: auto !important;
+    bottom: 0 !important;
     left: auto !important;
     right: 0 !important;
+    width: 380px !important;
+    height: 650px !important;
+    z-index: 999999 !important;
+    pointer-events: auto !important;
 }
 
 @keyframes typingBounce {
