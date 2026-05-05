@@ -21,25 +21,31 @@
     body {
       min-height: 100vh;
     }
-
-   /* --- MARKER: DEBUT CORRECTION CHAT WIDGET --- */
-#hb3d-chat-widget {
+    /* --- BLOC UNIFIÉ WIDGET (À METTRE TOUT EN HAUT) --- */
+    #hb3d-chat-widget {
     position: fixed !important;
     right: 20px !important;
     bottom: 20px !important;
     z-index: 999999 !important;
+    
+    /* On désactive les clics sur tout le widget parent */
+    pointer-events: none !important; 
+    
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-end !important;
-    
-    /* C'est ICI que le miracle se passe : on autorise le clic à traverser */
-    pointer-events: none !important; 
-    
-    cursor: move;
-    transition: transform 0.1s ease;
     margin: 0 !important;
     padding: 0 !important;
-}
+    }
+
+/* On réactive les clics uniquement sur les éléments interactifs du bot */
+    #hb3d-chat-widget #hb3d-chat-toggle,
+    #hb3d-chat-widget #hb3d-chat-panel,
+    #hb3d-chat-widget #hb3d-chat-close,
+    #hb3d-chat-widget #chat-send,
+    #hb3d-chat-widget #chat-input {
+    pointer-events: auto !important;
+    }
 
 /* On réactive les clics uniquement sur les éléments du widget */
 #hb3d-chat-widget *, 
@@ -386,29 +392,6 @@
 /* Font Orbitron partout */
 * { font-family: 'Orbitron', sans-serif !important; }
 
-#hb3d-chat-widget {
-    position: fixed !important;
-    right: 20px !important;
-    bottom: 20px !important;
-    z-index: 999999 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-end !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    
-    /* LE FIX : On désactive les clics sur tout le widget */
-    pointer-events: none !important;
-}
-
-/* On réactive les clics uniquement sur les zones utiles */
-#hb3d-chat-widget #hb3d-chat-toggle,
-#hb3d-chat-widget #hb3d-chat-panel,
-#hb3d-chat-widget #hb3d-chat-close,
-#hb3d-chat-widget #chat-send,
-#hb3d-chat-widget #chat-input {
-    pointer-events: auto !important;
-}
 
 @keyframes typingBounce {
   0%, 80%, 100% {
