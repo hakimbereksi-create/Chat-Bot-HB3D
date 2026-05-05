@@ -325,8 +325,16 @@
     width: 360px;
     max-height: calc(100vh - 150px); /* Ne dépassera jamais le haut */
     overflow: hidden;
-
-
+}
+  /* Sortie de flux pour le label : il ne dépend plus du panel */
+#hb3d-chat-label {
+    display: block !important;
+    position: fixed !important; /* Fixé par rapport à l'écran, pas au panel */
+    bottom: 80px !important;    /* Ajuste ici la hauteur par rapport au bas */
+    right: 20px !important;     /* Ajuste la position droite */
+    z-index: 9999999 !important; /* Toujours au-dessus de tout */
+    pointer-events: auto !important;
+}
 #hb3d-chat-label {
     position: absolute;
     bottom: 60px;
