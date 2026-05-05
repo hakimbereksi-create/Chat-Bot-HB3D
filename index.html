@@ -386,23 +386,14 @@
 /* Font Orbitron partout */
 * { font-family: 'Orbitron', sans-serif !important; }
 
-
-/* Retire la position fixed agressive */
-iframe[src*="hakimbereksi-create.github.io"] {
-    position: absolute; /* L'iframe ne sort plus du flux "fixed" */
-    top: 0;
-    left: 0;
-    width: 380px;
-    height: 650px;
-    z-index: 100; /* Juste au-dessus, pas au-dessus de tout le site */
-    border: none;
-    background: transparent;
-    pointer-events: none; /* Désactivé par défaut */
+/* Rend tout le widget du chat "traversable" par la souris */
+#hb3d-chat-widget {
+    pointer-events: none !important;
 }
 
-/* Quand le chat est ouvert */
-body.chat-ouvert iframe[src*="hakimbereksi-create.github.io"] {
-    pointer-events: auto; /* On réactive les clics uniquement quand ouvert */
+/* Sauf le bouton toggle (💬) pour pouvoir toujours ouvrir le chat */
+#hb3d-chat-toggle {
+    pointer-events: auto !important;
 }
 
 @keyframes typingBounce {
