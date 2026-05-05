@@ -21,39 +21,20 @@
     body {
       min-height: 100vh;
     }
-    /* --- BLOC UNIFIÉ WIDGET (À METTRE TOUT EN HAUT) --- */
+    /* 1. On rend le conteneur du chat transparent aux clics */
     #hb3d-chat-widget {
-    position: fixed !important;
-    right: 20px !important;
-    bottom: 20px !important;
-    z-index: 999999 !important;
-    
-    /* On désactive les clics sur tout le widget parent */
-    pointer-events: none !important; 
-    
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-end !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    pointer-events: none !important;
     }
 
-/* On réactive les clics uniquement sur les éléments interactifs du bot */
-    #hb3d-chat-widget #hb3d-chat-toggle,
-    #hb3d-chat-widget #hb3d-chat-panel,
-    #hb3d-chat-widget #hb3d-chat-close,
-    #hb3d-chat-widget #chat-send,
-    #hb3d-chat-widget #chat-input {
+    /* 2. On réactive les clics uniquement sur le bouton toggle (la bulle) */
+    #hb3d-chat-toggle {
     pointer-events: auto !important;
     }
 
-/* On réactive les clics uniquement sur les éléments du widget */
-#hb3d-chat-widget *, 
-#hb3d-chat-widget #hb3d-chat-toggle, 
-#hb3d-chat-widget #hb3d-chat-panel {
+    /* 3. On réactive les clics sur tout le widget quand le chat est ouvert */
+    #hb3d-chat-widget.is-open {
     pointer-events: auto !important;
-}
-/* --- MARKER: FIN CORRECTION CHAT WIDGET --- */
+    }
 
     #hb3d-chat-toggle {
     width: 50px !important;    /* Taille réduite */
