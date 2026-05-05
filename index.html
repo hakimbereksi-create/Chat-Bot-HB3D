@@ -386,13 +386,27 @@
 /* Font Orbitron partout */
 * { font-family: 'Orbitron', sans-serif !important; }
 
-/* Rend tout le widget du chat "traversable" par la souris */
 #hb3d-chat-widget {
+    position: fixed !important;
+    right: 20px !important;
+    bottom: 20px !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    
+    /* LE FIX : On désactive les clics sur tout le widget */
     pointer-events: none !important;
 }
 
-/* Sauf le bouton toggle (💬) pour pouvoir toujours ouvrir le chat */
-#hb3d-chat-toggle {
+/* On réactive les clics uniquement sur les zones utiles */
+#hb3d-chat-widget #hb3d-chat-toggle,
+#hb3d-chat-widget #hb3d-chat-panel,
+#hb3d-chat-widget #hb3d-chat-close,
+#hb3d-chat-widget #chat-send,
+#hb3d-chat-widget #chat-input {
     pointer-events: auto !important;
 }
 
