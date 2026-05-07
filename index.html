@@ -236,14 +236,23 @@
   box-shadow: 0 0 0 2px rgba(250, 4, 65, 0.12);
 }
 
-#chat-send {
-  flex: 0 0 auto;
-  min-width: 80px;
-  height: 42px;
-  align-self: flex-start;
-}
 
-    
+    #chat-send {
+      flex: 0 0 auto;
+      min-width: 80px;
+      border: none;
+      background:  #fa0441;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      /* Empêche le bouton de grandir */
+      box-sizing: border-box;
+      white-space: nowrap;
+      /* Hauteur fixe */
+      height: 38px;
+    }
+
     #chat-send:hover {
       background:  #fa0441;
     }
