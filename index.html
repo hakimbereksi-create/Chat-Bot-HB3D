@@ -482,6 +482,14 @@
   const chatMessages = document.getElementById("chat-messages");
   const chatInput   = document.getElementById("chat-input");
   const chatSend    = document.getElementById("chat-send");
+  // Identifiant propre à cette page, conservé jusqu'à son rechargement.
+  const hb3dSessionBytes = new Uint8Array(16);
+  window.crypto.getRandomValues(hb3dSessionBytes);
+
+  const hb3dSessionId = Array.from(
+  hb3dSessionBytes,
+  value => value.toString(16).padStart(2, "0")
+).join("");
 
   const chatIframe = document.querySelector('#hb3d-chat-widget iframe');
   
@@ -527,34 +535,47 @@
   }
 
     async function getBotReply(message) {
-    const msgLower = message.toLowerCase();
+  if (!message.trim()) return MESSAGES.default;
 
-    if (!message.trim()) return MESSAGES.default;
-    if (msgLower.includes("prix")) return MESSAGES.prix;
-
-    try {
-      // MODIFIÉ ICI : URL complète + header magique
-      const response = await fetch("./chat_api.php", {
+  try {
+    const response = await fetch(
+      "https://unamusable-nonacidic-wilfred.ngrok-free.dev/chat/chat_api.php",
+      {
         method: "POST",
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
-          "ngrok-skip-browser-warning": "true" // <--- C'est lui qui tue l'écran d'avertissement
+          "ngrok-skip-browser-warning": "true"
         },
         body: JSON.stringify({
-          message,
-          sessionId: "hb3d-local-test",
-        }),
-      });
+          message: message,
+          sessionId: hb3dSessionId
+        })
+      }
+    );
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (data.ok && data.reply) return data.reply;
-      return data.error || "Gemini temporairement indisponible";
-    } catch (err) {
-      console.error("erreur Gemini : ", err);
-      return "Service temporairement indisponible";
+    if (
+      !response.ok ||
+      !data ||
+      data.ok !== true ||
+      typeof data.reply !== "string" ||
+      !data.reply.trim()
+    ) {
+      throw new Error(
+        data && typeof data.error === "string"
+          ? data.error
+          : "Réponse du service invalide (HTTP " + response.status + ")."
+      );
     }
+
+    return data.reply;
+  } catch (err) {
+    console.error("[HB3D Chat] Connexion :", err);
+
+    return "L’assistant est momentanément indisponible. Réessayez dans un instant.";
   }
+}
 
 
   function addMessage(text, sender) {
